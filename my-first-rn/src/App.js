@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    backgroundColor: 'skyblue',
+    backgroundColor: '#000000',
     justifyContent: 'space-evenly',
   },
   result: {
