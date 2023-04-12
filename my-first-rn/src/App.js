@@ -14,11 +14,16 @@ export default function App() {
     EQUAL: '=',
   };
   const [result, setResult] = useState(0);
+  const onPressNumber = (num) => {
+    setResult((prev) => prev * 10 + num);
+  };
   return (
     <View style={styles.container}>
       <StatusBar style={'light'} />
       <View style={styles.resultContainer}>
-        <Text style={styles.result}>0</Text>
+        <Text style={styles.result}>
+          {result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        </Text>
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.leftPad}>
@@ -27,7 +32,9 @@ export default function App() {
               return (
                 <Button
                   title={num.toString()}
-                  onPress={() => {}}
+                  onPress={() => {
+                    onPressNumber(num);
+                  }}
                   buttonStyle={{ width, height: width, marginTop: 1 }}
                   key={num}
                 ></Button>
@@ -37,7 +44,9 @@ export default function App() {
           <View style={styles.bottom}>
             <Button
               title="0"
-              onPress={() => {}}
+              onPress={() => {
+                onPressNumber(0);
+              }}
               buttonStyle={{ width: width * 2, height: width, marginBottom: 1 }}
             ></Button>
             <Button
