@@ -14,8 +14,72 @@ export default function App() {
     EQUAL: '=',
   };
   const [result, setResult] = useState(0);
+  const [formular, setFormular] = useState([]);
+
+  const calculate = () => {
+    let calculateNumber = 0;
+    let operator = '';
+
+    formular.forEach((value) => {
+      if ([Operators.PLUS, Operators.MINUS].includes(value)) {
+        operator = value;
+      } else {
+        if (operator === Operators.PLUS) {
+          calculateNumber += value;
+        } else if (operator === Operators.MINUS) {
+          calculateNumber -= value;
+        } else {
+          calculateNumber = value;
+        }
+      }
+    });
+
+    setResult(calculateNumber);
+    setFormular([]);
+  };
+
   const onPressNumber = (num) => {
-    setResult((prev) => prev * 10 + num);
+    console.log(formular);
+    const last = formular[formular.length - 1];
+
+    if (isNaN(last)) {
+      setResult(num);
+      setFormular((prev) => [...prev, num]);
+    } else {
+      const newNum = (last ?? 0) * 10 + num;
+      setResult(newNum);
+      setFormular((prev) => {
+        prev.pop();
+        return [...prev, newNum];
+      });
+    }
+  };
+
+  const onPressOperator = (operator) => {
+    console.log(formular);
+    switch (operator) {
+      case Operators.CLEAR:
+        setResult(0);
+        setFormular([]);
+        break;
+      case Operators.EQUAL:
+        //TODO
+        calculate();
+        break;
+      default:
+        // +, -
+        const last = formular[formular.length - 1];
+        if ([Operators.PLUS, Operators.MINUS].includes(last)) {
+          setFormular((prev) => {
+            prev.pop();
+            return [...prev, operator];
+          });
+        } else {
+          setFormular((prev) => [...prev, operator]);
+        }
+        // TODO
+        break;
+    }
   };
   return (
     <View style={styles.container}>
@@ -50,8 +114,10 @@ export default function App() {
               buttonStyle={{ width: width * 2, height: width, marginBottom: 1 }}
             ></Button>
             <Button
-              title="="
-              onPress={() => {}}
+              title={Operators.EQUAL}
+              onPress={() => {
+                onPressOperator(Operators.EQUAL);
+              }}
               buttonStyle={{ width: width, height: width, marginBottom: 1 }}
               buttonType={ButtonTypes.OPERATOR}
             ></Button>
@@ -60,19 +126,25 @@ export default function App() {
         <View style={styles.operator}>
           <Button
             title={Operators.CLEAR}
-            onPress={() => {}}
+            onPress={() => {
+              onPressOperator(Operators.CLEAR);
+            }}
             buttonStyle={{ width, height: width, marginBottom: 1 }}
             buttonType={ButtonTypes.OPERATOR}
           ></Button>
           <Button
             title={Operators.MINUS}
-            onPress={() => {}}
+            onPress={() => {
+              onPressOperator(Operators.MINUS);
+            }}
             buttonStyle={{ width, height: width, marginBottom: 1 }}
             buttonType={ButtonTypes.OPERATOR}
           ></Button>
           <Button
             title={Operators.PLUS}
-            onPress={() => {}}
+            onPress={() => {
+              onPressOperator(Operators.PLUS);
+            }}
             buttonStyle={{ width, height: width * 2, marginBottom: 1 }}
             buttonType={ButtonTypes.OPERATOR}
           ></Button>
