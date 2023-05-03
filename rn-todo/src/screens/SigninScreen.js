@@ -6,6 +6,7 @@ import {
     KeyboardAvoidingView,
     Pressable,
     Keyboard,
+    Alert,
 } from 'react-native';
 import Input, {
     IconNames,
@@ -13,16 +14,40 @@ import Input, {
     ReturnkeyTypes,
 } from '../components/Input';
 import SafeInputView from './SafeIputView';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Button from '../components/Button';
+import { signIn } from '../../api/auth';
 
 const SignInScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const passwordRef = useRef(null);
-
-    const onSubmit = () => {
-        console.log('onSubmit');
+    const [disabled, setDisabled] = useState(true);
+    const [isLoading, setisLoading] = useState(false);
+    const onSubmit = async () => {
+        if (!disabled && !isLoading) {
+            Keyboard.dismiss();
+            setisLoading(true);
+            try {
+                const data = await signIn(email, password);
+                console.log(data);
+                setisLoading(false);
+            } catch (e) {
+                Alert.alert('SignIn Failed', e, [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            setisLoading(false);
+                        },
+                    },
+                ]);
+            }
+        }
     };
+
+    useEffect(() => {
+        setDisabled(!email || !password);
+    }, [email, password]);
 
     return (
         <SafeInputView>
@@ -41,6 +66,7 @@ const SignInScreen = () => {
                     returnkeyType={ReturnkeyTypes.NEXT}
                     iconName={IconNames.EMAIL}
                     onSubmitEditing={() => passwordRef.current.focus()}
+                    multiline={false}
                 ></Input>
                 <Input
                     ref={passwordRef}
@@ -52,6 +78,15 @@ const SignInScreen = () => {
                     iconName={IconNames.PASSWORD}
                     onSubmitEditing={onSubmit}
                 ></Input>
+
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title={'LOGIN'}
+                        onPress={onSubmit}
+                        disabled={disabled}
+                        isLoading={isLoading}
+                    ></Button>
+                </View>
             </View>
         </SafeInputView>
     );
@@ -69,6 +104,11 @@ const styles = StyleSheet.create({
     image: {
         width: 200,
         height: 200,
+    },
+    buttonContainer: {
+        width: '100%',
+        paddingHorizontal: 20,
+        marginTop: 20,
     },
 });
 

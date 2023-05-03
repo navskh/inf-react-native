@@ -30,6 +30,8 @@ const Input = forwardRef(
             returnkeyType,
             iconName,
             secureTextEntry,
+            onSubmitEditing,
+            ...props
         },
         ref
     ) => {
@@ -61,6 +63,7 @@ const Input = forwardRef(
                         secureTextEntry={secureTextEntry}
                         onBlur={() => setIsFocused(false)}
                         onFocus={() => setIsFocused(true)}
+                        onSubmitEditing={onSubmitEditing}
                     ></TextInput>
 
                     <View style={styles.icon}>
