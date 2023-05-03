@@ -1,24 +1,13 @@
-import {
-    View,
-    StyleSheet,
-    Text,
-    Image,
-    KeyboardAvoidingView,
-    Pressable,
-    Keyboard,
-    Alert,
-} from 'react-native';
-import Input, {
-    IconNames,
-    KeyboardTypes,
-    ReturnkeyTypes,
-} from '../components/Input';
-import SafeInputView from './SafeIputView';
+import { View, StyleSheet, Text, Image, KeyboardAvoidingView, Pressable, Keyboard, Alert } from 'react-native';
+import Input, { IconNames, KeyboardTypes, ReturnkeyTypes } from '../components/Input';
+import SafeInputView from '../components/SafeIputView';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../components/Button';
 import { signIn } from '../../api/auth';
+import PropTypes from 'prop-types';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation, route }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const passwordRef = useRef(null);
@@ -30,8 +19,8 @@ const SignInScreen = () => {
             setisLoading(true);
             try {
                 const data = await signIn(email, password);
-                console.log(data);
                 setisLoading(false);
+                navigation.push('List');
             } catch (e) {
                 Alert.alert('SignIn Failed', e, [
                     {
@@ -49,14 +38,12 @@ const SignInScreen = () => {
         setDisabled(!email || !password);
     }, [email, password]);
 
+    const insets = useSafeAreaInsets();
+
     return (
         <SafeInputView>
-            <View style={styles.container}>
-                <Image
-                    source={require('../../assets/main.png')}
-                    style={styles.image}
-                    resizeMode="cover"
-                ></Image>
+            <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+                <Image source={require('../../assets/main.png')} style={styles.image} resizeMode="cover"></Image>
                 <Input
                     value={email}
                     onChangeText={(text) => setEmail(text.trim())}
@@ -80,16 +67,15 @@ const SignInScreen = () => {
                 ></Input>
 
                 <View style={styles.buttonContainer}>
-                    <Button
-                        title={'LOGIN'}
-                        onPress={onSubmit}
-                        disabled={disabled}
-                        isLoading={isLoading}
-                    ></Button>
+                    <Button title={'LOGIN'} onPress={onSubmit} disabled={disabled} isLoading={isLoading}></Button>
                 </View>
             </View>
         </SafeInputView>
     );
+};
+
+SignInScreen.propTypes = {
+    navigation: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
