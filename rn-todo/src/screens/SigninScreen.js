@@ -7,7 +7,7 @@ import { signIn } from '../../api/auth';
 import PropTypes from 'prop-types';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const SignInScreen = ({ navigation, route }) => {
+const SignInScreen = ({ navigation, setUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const passwordRef = useRef(null);
@@ -20,7 +20,8 @@ const SignInScreen = ({ navigation, route }) => {
             try {
                 const data = await signIn(email, password);
                 setisLoading(false);
-                navigation.push('List');
+                setUser(data);
+                // navigation.push('List');
             } catch (e) {
                 Alert.alert('SignIn Failed', e, [
                     {
@@ -76,6 +77,7 @@ const SignInScreen = ({ navigation, route }) => {
 
 SignInScreen.propTypes = {
     navigation: PropTypes.object,
+    setUser: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
