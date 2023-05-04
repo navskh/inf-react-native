@@ -1,26 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { WHITE } from './colors';
-import { NavigationContainer } from '@react-navigation/native';
-import AuthStack from './navigation/AuthStack';
-import MainStack from './navigation/MainStack';
-import { useState } from 'react';
+import { UserProvider } from './contexts/UserContext';
+import Navigation from './navigation/Navigation';
 
 const App = () => {
-    const [user, setUser] = useState(null);
     return (
-        <NavigationContainer>
+        <UserProvider>
             <StatusBar style="dark" />
-            {user ? <MainStack /> : <AuthStack setUser={setUser} />}
-        </NavigationContainer>
+            <Navigation></Navigation>
+        </UserProvider>
     );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: WHITE,
-    },
-});

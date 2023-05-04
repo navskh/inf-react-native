@@ -6,8 +6,9 @@ import Button from '../components/Button';
 import { signIn } from '../../api/auth';
 import PropTypes from 'prop-types';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import UserContext, { userUserContext } from '../contexts/UserContext';
 
-const SignInScreen = ({ navigation, setUser }) => {
+const SignInScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const passwordRef = useRef(null);
@@ -41,6 +42,7 @@ const SignInScreen = ({ navigation, setUser }) => {
 
     const insets = useSafeAreaInsets();
 
+    const { setUser } = userUserContext();
     return (
         <SafeInputView>
             <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
