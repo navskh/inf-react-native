@@ -6,11 +6,11 @@ import Button from '../components/Button';
 import { signIn } from '../../api/auth';
 import PropTypes from 'prop-types';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import UserContext, { userUserContext } from '../contexts/UserContext';
+import UserContext, { useUserContext } from '../contexts/UserContext';
 
-const SignInScreen = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const SignInScreen = () => {
+    const [email, setEmail] = useState('my@email.com');
+    const [password, setPassword] = useState('1234');
     const passwordRef = useRef(null);
     const [disabled, setDisabled] = useState(true);
     const [isLoading, setisLoading] = useState(false);
@@ -20,9 +20,7 @@ const SignInScreen = ({ navigation }) => {
             setisLoading(true);
             try {
                 const data = await signIn(email, password);
-                setisLoading(false);
                 setUser(data);
-                // navigation.push('List');
             } catch (e) {
                 Alert.alert('SignIn Failed', e, [
                     {
@@ -42,7 +40,7 @@ const SignInScreen = ({ navigation }) => {
 
     const insets = useSafeAreaInsets();
 
-    const { setUser } = userUserContext();
+    const { setUser } = useUserContext();
     return (
         <SafeInputView>
             <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
@@ -68,9 +66,8 @@ const SignInScreen = ({ navigation }) => {
                     iconName={IconNames.PASSWORD}
                     onSubmitEditing={onSubmit}
                 ></Input>
-
                 <View style={styles.buttonContainer}>
-                    <Button title={'LOGIN'} onPress={onSubmit} disabled={disabled} isLoading={isLoading}></Button>
+                    <Button title={'SIGNIN'} onPress={onSubmit} disabled={disabled} isLoading={isLoading}></Button>
                 </View>
             </View>
         </SafeInputView>
@@ -78,7 +75,6 @@ const SignInScreen = ({ navigation }) => {
 };
 
 SignInScreen.propTypes = {
-    navigation: PropTypes.object,
     setUser: PropTypes.func,
 };
 

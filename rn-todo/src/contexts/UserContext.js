@@ -14,6 +14,6 @@ UserProvider.propTypes = {
     children: PropTypes.node,
 };
 
-export const userUserContext = () => useContext(UserContext);
+export const useUserContext = () => useContext(UserContext);
 
 export default UserContext;

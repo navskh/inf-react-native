@@ -1,19 +1,17 @@
-import { Button, StyleSheet, View, Text } from 'react-native';
+import EmptyList from '../components/EmptyList';
+import InputFAB from '../components/InputFAB';
+import List from '../components/List';
 
 const ListScreen = ({ navigation, route }) => {
+    const todos = [
+        // { id: 1, task: 'test', isDone: false }
+    ];
     return (
-        <View style={styles.container}>
-            <Text>ListScreen</Text>
-        </View>
+        <>
+            {todos.length ? <List data={todos} /> : <EmptyList />}
+            <InputFAB />
+        </>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});
 
 export default ListScreen;
