@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BLACK, DANGER, PRIMARY } from '../colors';
 
-const ListItem = memo(({ item }) => {
+const ListItem = ({ item }) => {
     const checkboxProps = {
         name: item.isDone ? 'checkbox-marked' : 'checkbox-blank-outline',
         color: item.isDone ? PRIMARY.DEFAULT : BLACK,
@@ -24,12 +24,12 @@ const ListItem = memo(({ item }) => {
             </Pressable>
         </View>
     );
-});
+};
 
 ListItem.displayName = 'ListItem';
 
 ListItem.propTypes = {
-    item: PropTypes.object.isRequred,
+    item: PropTypes.object.isRequired,
 };
 const styles = StyleSheet.create({
     container: {
