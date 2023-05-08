@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const List = ({ data, setIsBottom }) => {
+const List = ({ data, setIsBottom, onDelete, onToggle }) => {
     return (
         <FlatList
             data={data}
-            renderItem={({ item }) => <ListItem item={item} />}
+            renderItem={({ item }) => <ListItem item={item} onDelete={onDelete} onToggle={onToggle} />}
             keyExtractor={(item) => String(item.id)}
             windowSize={5}
             ItemSeparatorComponent={Separator}
@@ -37,6 +37,8 @@ const List = ({ data, setIsBottom }) => {
 List.propTypes = {
     data: PropTypes.array,
     setIsBottom: PropTypes.func,
+    onDelete: PropTypes.func,
+    onToggle: PropTypes.func,
 };
 
 export default List;
