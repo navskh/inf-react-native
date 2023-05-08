@@ -72,6 +72,10 @@ const Input = forwardRef(({ inputType, styles, ...props }, ref) => {
                     secureTextEntry={secureTextEntry}
                     onBlur={() => setIsFocused(false)}
                     onFocus={() => setIsFocused(true)}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    textContentType="none"
+                    keyboardAppearance="light"
                 />
                 <View style={[defaultStyles.icon, styles?.icon]}>
                     <MaterialCommunityIcons
