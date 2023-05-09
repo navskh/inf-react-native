@@ -8,6 +8,7 @@ import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Keyboard } from 'react-native';
 import TextButton from './../components/TextButton';
+import HR from './../components/HR';
 
 const SignInScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -59,6 +60,7 @@ const SignInScreen = ({ navigation }) => {
                         },
                     }}
                 ></Button>
+                <HR text={'OR'} styles={{ container: { marginVertical: 20 } }} />
                 <TextButton
                     title={'SIGNUP'}
                     onPress={() => {
