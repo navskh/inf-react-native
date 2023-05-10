@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { AuthRoute } from '../navigations/routes';
 import Input, { InputTypes } from '../components/Input';
@@ -13,6 +13,8 @@ import { StatusBar } from 'expo-status-bar';
 import { WHITE } from '../colors';
 import { ReturnkeyTypes } from './../components/Input';
 import { AuthFormTypes, authFormReducer, initAuthForm } from '../reducers/authFormReducer';
+import { useUserState } from '../contexts/UserContext';
+import { getAuthErrorMessage, signUp } from '../api/auth';
 
 const SignUpScreen = ({ navigation }) => {
     const { top, bottom } = useSafeAreaInsets();
@@ -20,6 +22,7 @@ const SignUpScreen = ({ navigation }) => {
     const passwordConfirmRef = useRef(null);
 
     const [form, dispatch] = useReducer(authFormReducer, initAuthForm);
+    const [, setUser] = useUserState();
 
     const updateForm = (payload) => {
         const newForm = { ...form, ...payload };
@@ -28,14 +31,19 @@ const SignUpScreen = ({ navigation }) => {
         dispatch({ type: AuthFormTypes.UPDATE_FORM, payload: { disabled: disabled, ...payload } });
     };
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         Keyboard.dismiss();
         if (!form.disabled && !form.isLoading) {
             dispatch({ type: AuthFormTypes.TOGGLE_LOADING });
-            console.log(form.email, form.password, form.passwordConfirm);
-            setTimeout(() => {
-                dispatch({ type: AuthFormTypes.TOGGLE_LOADING });
-            }, 1000);
+            try {
+                const user = await signUp(form);
+                setUser(user);
+            } catch (error) {
+                const message = getAuthErrorMessage(error.code);
+                Alert.alert('회원가입 실패', message, [
+                    { text: '확인', onPress: () => dispatch({ type: AuthFormTypes.TOGGLE_LOADING }) },
+                ]);
+            }
         }
     };
     return (
