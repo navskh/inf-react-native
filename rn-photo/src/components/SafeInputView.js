@@ -16,4 +16,5 @@ const SafeInputView = ({ children }) => {
 SafeInputView.propTypes = {
     children: PropTypes.node,
 };
+
 export default SafeInputView;

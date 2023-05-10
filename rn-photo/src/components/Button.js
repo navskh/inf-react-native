@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import PropTypes from 'prop-types';
-import { PRIMARY, WHITE } from '../colors';
+import { GRAY, PRIMARY, WHITE } from '../colors';
 import { ActivityIndicator } from 'react-native';
 
 const Button = ({ title, onPress, disabled, isLoading, styles }) => {

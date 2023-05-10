@@ -1,12 +1,4 @@
-import {
-    View,
-    StyleSheet,
-    Text,
-    Image,
-    KeyboardAvoidingView,
-    Pressable,
-    Keyboard,
-} from 'react-native';
+import { View, StyleSheet, Text, Image, KeyboardAvoidingView, Pressable, Keyboard } from 'react-native';
 import PropTypes from 'prop-types';
 
 const SafeInputView = ({ children }) => {
