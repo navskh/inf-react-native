@@ -8,8 +8,6 @@ import {
     updateProfile,
 } from 'firebase/auth';
 
-const PHOTO_URL = 'https://firebasestorage.googleapis.com/v0/b/rn-photo-ced29.appspot.com/o/profile.png?alt=media';
-
 export const getAuthErrorMessage = (errorCode) => {
     switch (errorCode) {
         case AuthErrorCodes.USER_DELETED:
@@ -32,6 +30,8 @@ export const signIn = async ({ email, password }) => {
     return user;
 };
 
+const PHOTO_URL = 'https://firebasestorage.googleapis.com/v0/b/rn-photo-ced29.appspot.com/o/profile.png?alt=media';
+
 export const signUp = async ({ email, password }) => {
     const { user } = await createUserWithEmailAndPassword(getAuth(), email, password);
 
@@ -50,7 +50,7 @@ export const signOut = async () => {
     await signOutFirebase(getAuth());
 };
 
-const updateUserInfo = async (userInfo) => {
+export const updateUserInfo = async (userInfo) => {
     try {
         await updateProfile(getAuth().currentUser, userInfo);
     } catch (error) {

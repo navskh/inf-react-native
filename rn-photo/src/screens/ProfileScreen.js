@@ -5,18 +5,33 @@ import { signOut } from '../api/auth';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GRAY, WHITE } from '../colors';
+import FastImage from '../components/FastImage';
+import DangerAlert, { AlertTypes } from './../components/DangerAlert';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { MainRoutes } from '../navigations/routes';
 
 const ProfileScreen = () => {
     const [user, setUser] = useUserState();
     const { top } = useSafeAreaInsets();
+    const [visible, setVisible] = useState(false);
+    const navigation = useNavigation();
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { paddingTop: top }]}>
+            <DangerAlert
+                visible={visible}
+                onClose={() => setVisible(false)}
+                alertType={AlertTypes.SIGNOUT}
+                onConfirm={async () => {
+                    await signOut();
+                    setUser({});
+                }}
+            />
             <View style={styles.settingButton}>
                 <Pressable
                     onPress={async () => {
-                        signOut();
-                        setUser({});
+                        setVisible(true);
                     }}
                     hitSlop={10}
                 >
@@ -26,8 +41,13 @@ const ProfileScreen = () => {
 
             <View style={styles.profile}>
                 <View style={[styles.photo, user.photoURL || { backgroundColor: GRAY.DEFAULT }]}>
-                    <Image source={{ uri: user.photoURL }} style={styles.photo} />
-                    <Pressable style={styles.editButton}>
+                    <FastImage source={{ uri: user.photoURL }} style={styles.photo} />
+                    <Pressable
+                        style={styles.editButton}
+                        onPress={() => {
+                            navigation.navigate(MainRoutes.UPDATE_PROFILE);
+                        }}
+                    >
                         <MaterialCommunityIcons name="pencil" size={24} color={WHITE} />
                     </Pressable>
                 </View>

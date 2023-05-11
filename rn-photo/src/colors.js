@@ -12,3 +12,9 @@ export const GRAY = {
     DEFAULT: '#D1D5DB',
     DARK: '#6B7280',
 };
+
+export const DANGER = {
+    LIGHT: '#fca5a5',
+    DEFAULT: '#ef4444',
+    DARK: '#b91c1c',
+};
