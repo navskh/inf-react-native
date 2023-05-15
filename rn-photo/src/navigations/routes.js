@@ -8,6 +8,7 @@ export const MainRoutes = {
     SELECT_PHOTOS: 'SELECT_PHOTOS',
     UPDATE_PROFILE: 'UPDATE_PROFILE',
     IMAGE_PICKER: 'IMAGE_PICKER',
+    WRITE_TEXT: 'WRITE_TEXT',
 };
 
 export const ContentRoutes = {

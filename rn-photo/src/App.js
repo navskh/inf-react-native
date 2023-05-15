@@ -3,15 +3,18 @@ import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Navigation from './navigations';
 import { useEffect, useState } from 'react';
 import { UserProvider } from './contexts/UserContext';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 const App = () => {
     LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core']);
 
     return (
-        <UserProvider>
-            <StatusBar style={'dark'} />
-            <Navigation />
-        </UserProvider>
+        <ActionSheetProvider>
+            <UserProvider>
+                <StatusBar style={'dark'} />
+                <Navigation />
+            </UserProvider>
+        </ActionSheetProvider>
     );
 };
 
